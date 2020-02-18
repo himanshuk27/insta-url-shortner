@@ -95,7 +95,17 @@ module.exports = function(ctx) {
       // optional; webpack config Object for
       // the Webserver part ONLY (/src-ssr/)
       // which is invoked for production (NOT for dev)
-      extendWebpack(cfg) {},
+      extendWebpack(cfg) {
+        cfg.module.rules.push({
+          enforce: "pre",
+          test: /\.(js|vue)$/,
+          loader: "eslint-loader",
+          exclude: /node_modules/,
+          options: {
+            formatter: require("eslint").CLIEngine.getFormatter("stylish")
+          }
+        });
+      },
 
       // -- @quasar/app v1.5+ --
       // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;

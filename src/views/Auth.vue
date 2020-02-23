@@ -221,53 +221,56 @@ export default {
     };
   },
   methods: {
-    async authQuery(signup = false) {
-      const url = signup ? "auth/signup" : "auth";
-      const password = signup ? this.password1 : this.password;
+    // toggle alert dialog
+    showAlertDialog(message, type = null) {
+      this.$emit("alert", { message, type });
+    },
+    loginRequest() {
       this.queryLoading = true;
-
-      // api post request
-      this.$api
-        .post(url, {
+      // dispatch login action
+      this.$store
+        .dispatch("loginUser", {
           email: this.email,
-          password
+          password: this.password
         })
-        .then(response => {
-          this.queryLoading = false;
-          const token = response.data.token;
-          const error = response.data.error;
-          // set jwt token in cookie with expiry
-          if (token) {
-            this.$cookies.set("icUserToken", token, response.data.expire_at);
-            // set jwt token in vuex store for axios api request
-            this.$store.commit("login", token);
+        .then(() => {
+          const authToken = this.$store.getters.getAuthToken;
+          if (authToken) {
+            this.queryLoading = false;
+            this.$router.push({ path: "/" });
+          } else {
+            this.queryLoading = false;
+            this.showAlertDialog("something went wrong", "error");
           }
-          if (token && !error) {
-            window.location.replace("/");
-          }
-          this.showAlertDialog(response.data.message, error ? "error" : "done");
         })
         .catch(error => {
           this.queryLoading = false;
           this.showAlertDialog(error, "error");
         });
     },
-    // toggle alert dialog
-    showAlertDialog(message, type = null) {
-      this.$emit("alert", { message, type });
-    },
-    loginRequest() {
-      this.authQuery();
-    },
     signupRequest() {
-      this.authQuery(true);
+      this.queryLoading = true;
+      // dispatch login action
+      this.$store
+        .dispatch("registerUser", {
+          email: this.email,
+          password: this.password2
+        })
+        .then(res => {
+          this.queryLoading = false;
+          this.showAlertDialog(res, "success");
+        })
+        .catch(error => {
+          this.queryLoading = false;
+          this.showAlertDialog(error, "error");
+        });
     }
   },
   created() {
     // check if user is logged in
-    const isUserLoggedIn = this.$cookies.get("icUserToken");
-    if (isUserLoggedIn && isUserLoggedIn != "") {
-      window.location.replace("/");
+    const isUserLoggedIn = this.$store.getters.getAuthToken;
+    if (isUserLoggedIn) {
+      this.$router.push({ path: "/" });
     }
     // repeat password check
     extend("repeatPassword", () => {

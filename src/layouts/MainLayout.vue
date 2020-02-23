@@ -103,8 +103,8 @@ export default {
       this.alertDialogVisible = true;
     },
     logout() {
-      this.$cookies.remove("icUserToken");
-      window.location.href = "/#/auth";
+      this.$store.commit("logUserOut");
+      this.$router.push({ path: "/auth" });
     }
   }
 };

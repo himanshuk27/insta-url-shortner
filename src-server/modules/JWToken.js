@@ -41,13 +41,12 @@ export const validateJwt = async req => {
         algorithm: "RS256"
       };
       const user = jwt.verify(token, publicKey, signOptions);
-      console.log("TCL: user", user);
       resolve(user);
     } catch (e) {
       reject({
         error: true,
         message: e.message,
-        code: 417
+        code: 401
       });
     }
   });

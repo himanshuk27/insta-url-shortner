@@ -10,7 +10,8 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
-    "no-async-promise-executor": "off"
+    "no-async-promise-executor": "off",
+    "no-unused-vars": "off"
   },
   overrides: [
     {

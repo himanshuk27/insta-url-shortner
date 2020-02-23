@@ -252,7 +252,6 @@ export default {
       customLinkAvailable: null,
       customLinkLoading: false,
       queryLoading: false,
-      axiosHeaders: {},
       columns: [
         {
           name: "url",
@@ -307,25 +306,24 @@ export default {
         : null;
       this.queryLoading = true;
       // api post request
-      this.$api
-        .post(
-          "/shortlink/create",
-          {
+      this.$store
+        .dispatch("postRequest", {
+          url: "/shortlink/create",
+          data: {
             url: this.userInputUrl,
             expirationDate,
             customShortLink: this.customShortLink,
             userId: "user1323"
-          },
-          { headers: this.axiosHeaders }
-        )
-        .then(response => {
+          }
+        })
+        .then(res => {
           this.queryLoading = false;
           this.showAlertDialog(
-            response.data.message,
-            response.data.error ? "warning" : "done"
+            res.data.message,
+            res.data.error ? "warning" : "done"
           );
           this.isLinkGenerated = true;
-          this.generatedShortLink = response.data.shortLink.shortLink;
+          this.generatedShortLink = res.data.shortLink.shortLink;
           this.fetchShortLinks();
         })
         .catch(error => {
@@ -334,13 +332,15 @@ export default {
         });
     },
     async fetchShortLinks() {
-      // fetch user url links history
-      this.$api
-        .post("/user/shortlinks", {
-          userId: "asfd"
+      this.$store
+        .dispatch("postRequest", {
+          url: "/user/shortlinks",
+          data: {
+            userId: "asfd"
+          }
         })
-        .then(response => {
-          this.generatedShortLinks = response.data.shortlinks;
+        .then(res => {
+          this.generatedShortLinks = res.data.shortlinks;
         })
         .catch(error => {
           this.showAlertDialog(error, "error");
@@ -349,15 +349,18 @@ export default {
     async checkCustomLinkRequest() {
       return new Promise((resolve, reject) => {
         this.customLinkLoading = true;
-        this.$api
-          .post("/shortlink/check-availability", {
-            customShortLink: this.customShortLink,
-            userId: "asfd"
+        this.$store
+          .dispatch("postRequest", {
+            url: "/shortlink/check-availability",
+            data: {
+              customShortLink: this.customShortLink,
+              userId: "asfd"
+            }
           })
-          .then(response => {
+          .then(res => {
             this.customLinkLoading = false;
-            this.customLinkAvailable = !response.data.match;
-            resolve(!response.data.match);
+            this.customLinkAvailable = !res.data.match;
+            resolve(!res.data.match);
           })
           .catch(error => {
             this.customLinkLoadin = false;
@@ -387,11 +390,7 @@ export default {
       }
       return true;
     },
-    setAxiosHeaders() {
-      const token = this.$cookies.get("icUserToken");
-      this.axiosHeaders = { Authorization: token };
-      this.$api.defaults.headers.common["Authorization"] = token;
-    },
+    // create custom validation rules
     extendCustomRules() {
       extend("customLinkAvailable", () => {
         if (!this.setCustomLink) {
@@ -406,24 +405,31 @@ export default {
         return true;
       });
       extend("isURL", value => {
-        if (isURL(value)) {
+        if (
+          isURL(value, {
+            protocols: ["http", "https"],
+            require_protocol: true
+          })
+        ) {
           return true;
         }
-        return "Enter valid url";
+        if (value.includes(" ")) {
+          return "spaces are not allowed";
+        }
+        return "Enter a valid url with prefix http or https";
       });
     }
   },
   created() {
     // check if user is logged in
-    const isUserLoggedIn = this.$cookies.get("icUserToken");
-    if (!isUserLoggedIn || isUserLoggedIn == "") {
-      window.location.replace("/#/auth");
+    const isUserLoggedIn = this.$store.getters.getAuthToken;
+    if (!isUserLoggedIn) {
+      this.$router.push({ path: "/auth" });
     }
 
     // populate link analytics table
     this.fetchShortLinks();
     this.extendCustomRules();
-    this.setAxiosHeaders();
   }
 };
 </script>

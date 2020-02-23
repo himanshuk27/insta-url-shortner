@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 /**
  * Send login request to backend api and set auth token
  * @param {*} userCreds
@@ -13,10 +14,17 @@ export const authenticateAndSetToken = async userCreds => {
       })
       .then(response => {
         const token = response.data.token;
+        // set expiration date
+        const expireAt = moment()
+          .add(response.data.expireAt.replace("h", ""), "hours")
+          .toString();
         // return with error message if no token
         if (token && token != "") {
           // set axios authorization token
-          resolve(token);
+          resolve({
+            authToken: token,
+            expireAt
+          });
         } else {
           reject(response.data.message);
         }

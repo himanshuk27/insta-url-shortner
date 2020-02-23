@@ -7,17 +7,16 @@ import moment from "moment";
  * @param {*} req
  */
 export const redirectFromShortlink = async (req, res) => {
-  await dbConnect("shortlinks");
   return new Promise(async (resolve, reject) => {
     try {
       const shortLink = req.params.shortLink;
       // initialize mongodb connection
+      await dbConnect("shortlinks");
 
       // check redis cache for original url
       redisClient.get(shortLink, (error, value) => {
         if (value) {
           res.redirect(value);
-          res.end();
           resolve();
         }
       });
@@ -35,7 +34,6 @@ export const redirectFromShortlink = async (req, res) => {
         }
       }
       res.redirect(query.url);
-      res.end();
       resolve();
     } catch (e) {
       reject(e.message);

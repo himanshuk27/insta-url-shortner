@@ -199,7 +199,13 @@
                   </p>
                 </div>
                 <div class="row" v-if="isLinkGenerated">
-                  <p class="text-subtitle1">Link: {{ userInputUrl }}</p>
+                  <p class="text-subtitle1 q-mr-xs">Link:</p>
+                  <a
+                    class="text-subtitle1"
+                    :href="`${slEndpoint}${generatedShortLink}`"
+                    target="_blank"
+                    >{{ `${slEndpoint}${generatedShortLink}` }}</a
+                  >
                 </div>
               </ValidationObserver>
             </q-card-section>
@@ -239,6 +245,7 @@ export default {
   data() {
     return {
       isLinkGenerated: false,
+      slEndpoint: "",
       userInputUrl: "",
       generatedShortLink: "",
       generatedShortLinks: [],
@@ -266,7 +273,7 @@ export default {
           label: "Short Link",
           align: "left",
           field: row => row.shortLink,
-          format: val => `${val}`,
+          format: val => `${this.slEndpoint}${val}`,
           sortable: true
         },
         {
@@ -277,14 +284,6 @@ export default {
             row.expireAt
               ? moment(row.expireAt).format("DD-MMM-YYYY HH:mm")
               : "-",
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "userId",
-          label: "User Id",
-          align: "left",
-          field: row => row.userId,
           format: val => `${val}`,
           sortable: true
         },
@@ -416,12 +415,7 @@ export default {
     }
   },
   created() {
-    // check if user is logged in
-    const isUserLoggedIn = this.$store.getters.getAuthToken;
-    if (!isUserLoggedIn) {
-      this.$router.push({ path: "/auth" });
-    }
-
+    this.slEndpoint = process.env.VUE_APP_LINKENDPOINT;
     // populate link analytics table
     this.fetchShortLinks();
     this.extendCustomRules();

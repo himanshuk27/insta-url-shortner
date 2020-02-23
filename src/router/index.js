@@ -7,16 +7,24 @@ const routes = [
   {
     path: "/",
     component: () => import("../layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("../views/Home.vue") }]
-  },
-  {
-    path: "/auth",
-    component: () => import("../layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("../views/Auth.vue") }]
+    children: [
+      { path: "", name: "home", component: () => import("../views/Home.vue") },
+      {
+        path: "analytics",
+        name: "analytics",
+        component: () => import("../views/Analytics.vue")
+      },
+      {
+        path: "/auth",
+        name: "auth",
+        component: () => import("../views/Auth.vue")
+      }
+    ]
   }
 ];
 
 const router = new VueRouter({
+  mode: "history",
   routes
 });
 

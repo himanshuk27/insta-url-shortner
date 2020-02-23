@@ -34,7 +34,7 @@
     >
       <q-scroll-area class="fit">
         <q-list>
-          <q-item clickable v-ripple>
+          <q-item clickable v-ripple @click="navigateRoute('home')">
             <q-item-section avatar>
               <q-icon name="home" />
             </q-item-section>
@@ -42,7 +42,7 @@
           </q-item>
 
           <q-separator />
-          <q-item clickable v-ripple>
+          <q-item clickable v-ripple @click="navigateRoute('analytics')">
             <q-item-section avatar>
               <q-icon name="show_chart" />
             </q-item-section>
@@ -82,6 +82,7 @@
 
 <script>
 import AlertDialog from "../components/AlertDialog";
+import moment from "moment";
 
 export default {
   name: "MainLayout",
@@ -97,14 +98,34 @@ export default {
     };
   },
   methods: {
+    // check session token and expiration
+    checkUserSession() {
+      const authToken = this.$store.getters.getAuthToken;
+      if (authToken.token) {
+        const sessionExpire = moment().isSameOrAfter(authToken.expireAt);
+        if (sessionExpire) {
+          this.$router.push({ path: "/auth" });
+        }
+      } else {
+        this.$router.push({ path: "/auth" });
+      }
+    },
     showAlertDialog(data) {
       this.alertDialogMessage = data.message;
       this.alertDialogType = data.type;
       this.alertDialogVisible = true;
     },
+    navigateRoute(name) {
+      this.$router.push({ name });
+    },
     logout() {
       this.$store.commit("logUserOut");
       this.$router.push({ path: "/auth" });
+    }
+  },
+  created() {
+    if (!this.$route.path.includes("auth")) {
+      this.checkUserSession();
     }
   }
 };

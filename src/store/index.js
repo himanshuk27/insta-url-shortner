@@ -10,8 +10,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    userLoggedIn: false,
-    authToken: null
+    authToken: null,
+    expireAt: null
   },
   plugins: [
     // persist vuex store data in encrypted local storage
@@ -24,13 +24,13 @@ export default new Vuex.Store({
     })
   ],
   mutations: {
-    setAuthToken(state, authToken) {
-      state.userLoggedIn = true;
-      state.authToken = authToken;
+    setAuthToken(state, token) {
+      state.authToken = token.authToken;
+      state.expireAt = token.expireAt;
     },
     logUserOut(state) {
-      state.userLoggedIn = false;
       state.authToken = null;
+      state.expireAt = null;
     }
   },
   actions: {
@@ -86,7 +86,10 @@ export default new Vuex.Store({
   },
   getters: {
     getAuthToken: state => {
-      return state.authToken;
+      return {
+        token: state.authToken,
+        expireAt: state.expireAt
+      };
     }
   },
   modules: {}

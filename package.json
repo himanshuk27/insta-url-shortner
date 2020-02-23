@@ -16,6 +16,7 @@
     "@babel/runtime": "^7.8.4",
     "@quasar/extras": "^1.0.0",
     "axios": "^0.19.2",
+    "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -33,6 +34,7 @@
     "vee-validate": "^3.2.5",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
+    "vue-chartjs": "^3.5.0",
     "vue-router": "^3.1.5",
     "vuex": "^3.1.2",
     "vuex-persistedstate": "^2.7.1"

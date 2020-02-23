@@ -5,13 +5,14 @@ import {
   checkShortLinkAvailability
 } from "../modules/ShortLink";
 import { validateJwt } from "../modules/JWToken";
+import { getShortlinkBrowserAnalytics } from "../modules/ShortLinkAnalytics";
 
 const apiRouter = express.Router();
 let user = null;
 
 // jwt middleware
 apiRouter.use((req, res, next) => {
-  if (!req.path.includes("auth")) {
+  if (req.path.includes("shortlink")) {
     validateJwt(req)
       .then(result => {
         if (!result) {
@@ -46,6 +47,13 @@ apiRouter.post("/user/shortlinks", (req, res) => {
 
 apiRouter.post("/shortlink/check-availability", (req, res) => {
   checkShortLinkAvailability(req, res).catch(error => {
+    res.status(error.code || 417).send(error);
+    res.end();
+  });
+});
+
+apiRouter.post("/shortlink/analytics", (req, res) => {
+  getShortlinkBrowserAnalytics(req, res, user).catch(error => {
     res.status(error.code || 417).send(error);
     res.end();
   });

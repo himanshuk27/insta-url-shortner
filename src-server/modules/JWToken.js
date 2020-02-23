@@ -13,7 +13,7 @@ export const createJwtFromUser = user => {
       algorithm: "RS256"
     };
 
-    return { token: jwt.sign(user, privateKey, signOptions), expire_at: exp };
+    return { token: jwt.sign(user, privateKey, signOptions), expireAt: exp };
   } catch (e) {
     return {
       error: true,

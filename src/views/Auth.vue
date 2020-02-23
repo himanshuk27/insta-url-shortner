@@ -267,11 +267,6 @@ export default {
     }
   },
   created() {
-    // check if user is logged in
-    const isUserLoggedIn = this.$store.getters.getAuthToken;
-    if (isUserLoggedIn) {
-      this.$router.push({ path: "/" });
-    }
     // repeat password check
     extend("repeatPassword", () => {
       if (this.password1 === this.password2) {

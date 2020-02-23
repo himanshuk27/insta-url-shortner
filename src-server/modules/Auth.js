@@ -43,7 +43,7 @@ export const authenticateUser = async (req, res) => {
         error: false,
         message: "Auth success",
         token: token.token,
-        expire_at: token.expire_at,
+        expireAt: token.expireAt,
         code: 200
       });
       res.end();

@@ -9,24 +9,63 @@
           icon="menu"
           class="q-mr-sm"
           @click="leftDrawerOpen = !leftDrawerOpen"
+          v-if="$route.path != '/auth'"
         />
 
         <q-toolbar-title>Insta Url Shortner</q-toolbar-title>
 
-        <q-btn flat round dense icon="whatshot" />
+        <q-btn
+          v-if="$route.path != '/auth'"
+          flat
+          small
+          label="Logout"
+          @click="logout"
+        />
       </q-toolbar>
     </q-header>
 
     <q-drawer
+      v-if="$route.path != '/auth'"
+      :width="250"
       v-model="leftDrawerOpen"
       show-if-above
       bordered
       content-class="bg-grey-1"
     >
-      <q-list>
-        <q-item-label header class="text-grey-8">Essential Links</q-item-label>
-      </q-list>
+      <q-scroll-area class="fit">
+        <q-list>
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="home" />
+            </q-item-section>
+            <q-item-section>Home</q-item-section>
+          </q-item>
+
+          <q-separator />
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="show_chart" />
+            </q-item-section>
+            <q-item-section>Analytics</q-item-section>
+          </q-item>
+
+          <q-separator />
+          <q-item clickable v-ripple @click="logout">
+            <q-item-section avatar>
+              <q-icon name="power_settings_new" />
+            </q-item-section>
+            <q-item-section>Logout</q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
     </q-drawer>
+    <q-footer elevated>
+      <q-toolbar>
+        <q-toolbar-title>
+          <div class="text-overline">© 2020, himanshuk27@gmail.com</div>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
 
     <q-page-container>
       <router-view @alert="showAlertDialog" />
@@ -62,6 +101,10 @@ export default {
       this.alertDialogMessage = data.message;
       this.alertDialogType = data.type;
       this.alertDialogVisible = true;
+    },
+    logout() {
+      this.$cookies.remove("icUserToken");
+      window.location.href = "/#/auth";
     }
   }
 };

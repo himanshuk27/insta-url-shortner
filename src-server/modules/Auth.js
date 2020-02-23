@@ -1,5 +1,6 @@
 import { insertItem, dbConnect, findOne } from "./MongoDbClient";
 import uuid from "uuid";
+import { createJwtFromUser } from "./JWToken";
 
 /**
  * Authenticate user via input email and password
@@ -20,6 +21,7 @@ export const authenticateUser = async req => {
         code: 401
       };
     }
+    dbClient.close();
 
     if (password != user.password) {
       return {
@@ -29,11 +31,14 @@ export const authenticateUser = async req => {
       };
     }
 
-    dbClient.close();
+    // generate jwt web token
+    const token = createJwtFromUser(user);
 
     return {
       error: false,
       message: "Auth success",
+      token: token.token,
+      expire_at: token.expire_at,
       code: 200
     };
   } catch (e) {

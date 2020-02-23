@@ -11,7 +11,7 @@
                   <div class="url-input">
                     <ValidationProvider
                       name="url"
-                      rules="required"
+                      rules="required|isURL"
                       v-slot="{ errors }"
                     >
                       <!-- Url input -->
@@ -21,6 +21,9 @@
                         outlined
                         label="Url"
                         bottom-slots
+                        v-on:keyup.enter="
+                          handleSubmit(generateShortLinkRequest)
+                        "
                       >
                         <template v-slot:append>
                           <q-icon name="http" />
@@ -53,9 +56,15 @@
                     <!-- short link generate button -->
                     <q-btn
                       outline
+                      color="orange"
                       label="Generate Link"
+                      :loading="queryLoading"
                       @click="handleSubmit(generateShortLinkRequest)"
-                    />
+                    >
+                      <template v-slot:loading>
+                        <q-spinner-gears class="on-left" />working...
+                      </template>
+                    </q-btn>
                   </div>
                 </div>
 
@@ -218,8 +227,8 @@ import {
   extend
 } from "vee-validate/dist/vee-validate.full.esm";
 import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
-
 import moment from "moment";
+import isURL from "validator/lib/isURL";
 
 export default {
   name: "Home",
@@ -242,6 +251,8 @@ export default {
       showTimeEdit: false,
       customLinkAvailable: null,
       customLinkLoading: false,
+      queryLoading: false,
+      axiosHeaders: {},
       columns: [
         {
           name: "url",
@@ -263,7 +274,10 @@ export default {
           name: "expiryAt",
           label: "Expiry Date",
           align: "left",
-          field: row => moment(row.expireAt).format("DD-MMM-YYYY HH:mm"),
+          field: row =>
+            row.expireAt
+              ? moment(row.expireAt).format("DD-MMM-YYYY HH:mm")
+              : "-",
           format: val => `${val}`,
           sortable: true
         },
@@ -288,15 +302,22 @@ export default {
   },
   methods: {
     async generateShortLinkRequest() {
+      const expirationDate = this.setExpiry
+        ? `${this.expiryDate} ${this.expiryTime}`
+        : null;
       this.queryLoading = true;
       // api post request
       this.$api
-        .post("/shortlink/create", {
-          url: this.userInputUrl,
-          expirationDate: `${this.expiryDate} ${this.expiryTime}`,
-          customShortLink: this.customShortLink,
-          userId: "user1323"
-        })
+        .post(
+          "/shortlink/create",
+          {
+            url: this.userInputUrl,
+            expirationDate,
+            customShortLink: this.customShortLink,
+            userId: "user1323"
+          },
+          { headers: this.axiosHeaders }
+        )
         .then(response => {
           this.queryLoading = false;
           this.showAlertDialog(
@@ -365,23 +386,44 @@ export default {
         return moment(`${hr}:${min}`, "HH:mm ").isAfter(moment(), "minute");
       }
       return true;
+    },
+    setAxiosHeaders() {
+      const token = this.$cookies.get("icUserToken");
+      this.axiosHeaders = { Authorization: token };
+      this.$api.defaults.headers.common["Authorization"] = token;
+    },
+    extendCustomRules() {
+      extend("customLinkAvailable", () => {
+        if (!this.setCustomLink) {
+          return true;
+        }
+        if (this.customLinkAvailable == null) {
+          return "Check availability";
+        }
+        if (!this.customLinkAvailable) {
+          return "";
+        }
+        return true;
+      });
+      extend("isURL", value => {
+        if (isURL(value)) {
+          return true;
+        }
+        return "Enter valid url";
+      });
     }
   },
   created() {
+    // check if user is logged in
+    const isUserLoggedIn = this.$cookies.get("icUserToken");
+    if (!isUserLoggedIn || isUserLoggedIn == "") {
+      window.location.replace("/#/auth");
+    }
+
     // populate link analytics table
     this.fetchShortLinks();
-    extend("customLinkAvailable", () => {
-      if (!this.setCustomLink) {
-        return true;
-      }
-      if (this.customLinkAvailable == null) {
-        return "Check availability";
-      }
-      if (!this.customLinkAvailable) {
-        return "";
-      }
-      return true;
-    });
+    this.extendCustomRules();
+    this.setAxiosHeaders();
   }
 };
 </script>

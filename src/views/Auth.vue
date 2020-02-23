@@ -45,7 +45,7 @@
             <!-- password input -->
             <ValidationProvider
               name="password"
-              rules="required"
+              rules="required|min:6"
               v-slot="{ errors }"
             >
               <div class="row justify-center q-mb-lg">
@@ -57,7 +57,7 @@
                   outlined
                   label="Password"
                   :type="isPwd ? 'password' : 'text'"
-                  @click="handleSubmit(loginRequest)"
+                  v-on:keyup.enter="handleSubmit(loginRequest)"
                 >
                   <template v-slot:prepend>
                     <q-icon name="lock" />
@@ -117,7 +117,7 @@
             <!-- password 1 input -->
             <ValidationProvider
               name="password-1"
-              rules="required"
+              rules="required|min:6"
               v-slot="{ errors }"
             >
               <div class="row justify-center">
@@ -148,7 +148,7 @@
             </ValidationProvider>
             <ValidationProvider
               name="password-2"
-              rules="required"
+              rules="required|min:6|repeatPassword"
               v-slot="{ errors }"
             >
               <div class="row justify-center">
@@ -161,7 +161,7 @@
                   outlined
                   label="Repeat Password"
                   :type="isPwd ? 'password' : 'text'"
-                  @click="handleSubmit(signupRequest)"
+                  v-on:keyup.enter="handleSubmit(signupRequest)"
                 >
                   <template v-slot:prepend>
                     <q-icon name="lock" />
@@ -197,10 +197,11 @@
 </template>
 
 <script>
-import { ValidationProvider } from "vee-validate";
-import { ValidationObserver } from "vee-validate";
-import { extend } from "vee-validate";
-import { required, email } from "vee-validate/dist/rules";
+import {
+  ValidationObserver,
+  extend
+} from "vee-validate/dist/vee-validate.full.esm";
+import { ValidationProvider } from "vee-validate/dist/vee-validate.full.esm";
 
 export default {
   name: "Auth",
@@ -220,22 +221,31 @@ export default {
     };
   },
   methods: {
-    authQuery(signup = false) {
+    async authQuery(signup = false) {
       const url = signup ? "auth/signup" : "auth";
+      const password = signup ? this.password1 : this.password;
       this.queryLoading = true;
 
       // api post request
       this.$api
         .post(url, {
           email: this.email,
-          password: this.password
+          password
         })
         .then(response => {
           this.queryLoading = false;
-          this.showAlertDialog(
-            response.data.message,
-            response.data.error ? "error" : "done"
-          );
+          const token = response.data.token;
+          const error = response.data.error;
+          // set jwt token in cookie with expiry
+          if (token) {
+            this.$cookies.set("icUserToken", token, response.data.expire_at);
+            // set jwt token in vuex store for axios api request
+            this.$store.commit("login", token);
+          }
+          if (token && !error) {
+            window.location.replace("/");
+          }
+          this.showAlertDialog(response.data.message, error ? "error" : "done");
         })
         .catch(error => {
           this.queryLoading = false;
@@ -254,12 +264,18 @@ export default {
     }
   },
   created() {
-    // import form validation rules
-    extend("required", {
-      ...required,
-      message: "This field is required"
+    // check if user is logged in
+    const isUserLoggedIn = this.$cookies.get("icUserToken");
+    if (isUserLoggedIn && isUserLoggedIn != "") {
+      window.location.replace("/");
+    }
+    // repeat password check
+    extend("repeatPassword", () => {
+      if (this.password1 === this.password2) {
+        return true;
+      }
+      return "Password not matched";
     });
-    extend("email", email);
   }
 };
 </script>

@@ -4,8 +4,19 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    authToken: null
+  },
+  mutations: {
+    login(state, token) {
+      state.authToken = token;
+    }
+  },
+  getters: {
+    getToken: state => {
+      return state.authToken;
+    }
+  },
   actions: {},
   modules: {}
 });

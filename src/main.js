@@ -5,6 +5,7 @@ import router from "./router";
 import store from "./store";
 import "./quasar";
 import axios from "axios";
+import VueCookies from "vue-cookies";
 
 const apiPort = process.env.API_PORT | 3000;
 Vue.use({
@@ -14,6 +15,7 @@ Vue.use({
     });
   }
 });
+Vue.use(VueCookies);
 
 Vue.config.productionTip = false;
 

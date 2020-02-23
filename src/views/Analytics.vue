@@ -49,9 +49,6 @@ export default {
             this.browserData = res.data.analytics;
             this.renderBrowserPieChart();
           }
-        })
-        .catch(error => {
-          console.log("TCL: getBrowserAnalytics -> error", error);
         });
     },
     renderBrowserPieChart() {
@@ -67,7 +64,6 @@ export default {
         datasets[labelIndex] = dataset ? dataset + 1 : 1;
       });
       var ctx = this.$refs.myChart.getContext("2d");
-      console.log("TCL: renderBrowserPieChart -> ctx", ctx);
       new Chart(ctx, {
         type: "pie",
         data: {

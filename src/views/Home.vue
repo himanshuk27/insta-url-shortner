@@ -312,8 +312,7 @@ export default {
           data: {
             url: this.userInputUrl,
             expirationDate,
-            customShortLink: this.customShortLink,
-            userId: "user1323"
+            customShortLink: this.customShortLink
           }
         })
         .then(res => {
@@ -334,10 +333,7 @@ export default {
     async fetchShortLinks() {
       this.$store
         .dispatch("postRequest", {
-          url: "/user/shortlinks",
-          data: {
-            userId: "asfd"
-          }
+          url: "/user/shortlinks"
         })
         .then(res => {
           this.generatedShortLinks = res.data.shortlinks;
@@ -353,8 +349,7 @@ export default {
           .dispatch("postRequest", {
             url: "/shortlink/check-availability",
             data: {
-              customShortLink: this.customShortLink,
-              userId: "asfd"
+              customShortLink: this.customShortLink
             }
           })
           .then(res => {

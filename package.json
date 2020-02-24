@@ -6,9 +6,9 @@
   },
   "private": true,
   "scripts": {
-    "build": "rm -rf lib && babel src-server --out-dir lib",
     "start": "node lib/server.js",
-    "dev-server": "nodemon --exec babel-node src-server/server.js"
+    "dev-server": "nodemon --exec babel-node src-server/server.js",
+    "build-server": "rm -rf lib && babel src-server --out-dir lib"
   },
   "dependencies": {
     "bcrypt": "^4.0.0",
@@ -26,14 +26,15 @@
     "useragent": "^2.3.0",
     "uuid": "^3.4.0",
     "@babel/polyfill": "^7.8.3",
-    "@babel/runtime": "^7.8.4"
+    "@babel/runtime": "^7.8.4",
+    "@babel/plugin-transform-runtime": "^7.8.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
-    "@babel/plugin-transform-runtime": "^7.8.3"
+    "babel-plugin-transform-imports": "1.5.0"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

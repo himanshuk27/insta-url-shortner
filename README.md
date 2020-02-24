@@ -5,7 +5,8 @@
 - Instant short link generator
 - Set custom link
 - Set expiry date and time
-- Link analytics (work in progress)
+- Link click data logging
+- Link analytics animated Charts (work in progress)
 
 ## App Technology Features
 

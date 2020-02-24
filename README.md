@@ -26,7 +26,7 @@
 - Docker container build files (work in progress)
 
 ## Installation Requirements
-
+- Copy .env.test file to .env
 - Install Redis server
   > sudo apt install redis-server
 - Npm install
@@ -48,3 +48,7 @@
   > npm run test:unit
 - Run end to end test
   > npm run test:e2e
+
+  ## App Directory Structure
+> src - frontend source files
+> src-server- backend source files

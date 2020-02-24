@@ -14,6 +14,7 @@
 - Mongodb database
 - jest unit test
 - cypress e2e test
+- full webpack chunking of assets
 - Vuex store with encrypted local storage
 - JWT Auth token, super secure version using public and private key
 - Babel support for latest syntax

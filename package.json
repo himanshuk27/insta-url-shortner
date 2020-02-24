@@ -7,14 +7,9 @@
   "private": true,
   "main": "lib/server.js",
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-server": "rm -rf lib && babel src-server --out-dir lib",
-    "dev-server": "nodemon --exec babel-node src-server/server.js",
-    "test:unit": "vue-cli-service test:unit",
-    "test:e2e": "vue-cli-service test:e2e",
-    "lint": "vue-cli-service lint",
-    "web": "npm run build-server && node lib/server.js"
+    "build-": "rm -rf lib && babel src-server --out-dir lib",
+    "web": "node lib/server.js",
+    "dev-server": "nodemon --exec babel-node src-server/server.js"
   },
   "dependencies": {
     "bcrypt": "^4.0.0",

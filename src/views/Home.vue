@@ -414,7 +414,7 @@ export default {
       });
     }
   },
-  created() {
+  mounted() {
     this.slEndpoint = process.env.VUE_APP_LINKENDPOINT;
     // populate link analytics table
     this.fetchShortLinks();

@@ -7,6 +7,7 @@ import express from "express";
 import apiRouter from "./router/api";
 import authRouter from "./router/auth";
 import redis from "redis";
+import helmet from "helmet";
 
 export const app = express();
 const port = process.env.API_PORT || 3000;
@@ -17,8 +18,12 @@ redisClient.on("error", function(error) {
 });
 export const redisPrint = redisClient.print;
 
+app.use(helmet());
+
 // use cors for local testing
-app.use(cors());
+if (process.env.MODE == "development") {
+  app.use(cors());
+}
 // use body parser to parse request parameters
 app.use(
   bodyParser.urlencoded({

@@ -321,7 +321,7 @@ export default {
             res.data.error ? "warning" : "done"
           );
           this.isLinkGenerated = true;
-          this.generatedShortLink = res.data.shortLink.shortLink;
+          this.generatedShortLink = res.data.shortLink;
           this.fetchShortLinks();
         })
         .catch(error => {

@@ -1,6 +1,8 @@
 import { insertItem, dbConnect, findOne } from "./MongoDbClient";
-import uuid from "uuid";
+import randomstring from "randomstring";
+import bcrypt from "bcrypt";
 import { createJwtFromUser } from "./JWToken";
+import uuidv5 from "uuid/v5";
 
 /**
  * Authenticate user via input email and password
@@ -26,7 +28,10 @@ export const authenticateUser = async (req, res) => {
       }
       dbClient.close();
 
-      if (password != user.password) {
+      // very password hash
+      const auth = await checkPassword(password, user.password);
+
+      if (!auth) {
         res.send({
           error: true,
           message: "Incorrect password",
@@ -62,6 +67,7 @@ export const registerUser = async (req, res) => {
   return new Promise(async (resolve, reject) => {
     try {
       const email = req.body.email.toLowerCase();
+      const password = await generatePasswordHash(req.body.password);
       const dbClient = await dbConnect("users");
       const query = await findOne({ email });
 
@@ -76,11 +82,12 @@ export const registerUser = async (req, res) => {
         resolve();
       }
 
+      const randomString = randomstring.generate(8);
       // prepare user object
       const user = {
-        _id: uuid.v4(),
+        _id: uuidv5(randomString, process.env.APP_UUID),
         email,
-        password: req.body.password
+        password
       };
 
       // insert user object
@@ -102,5 +109,27 @@ export const registerUser = async (req, res) => {
         code: 417
       });
     }
+  });
+};
+
+// generate secure password hash
+const generatePasswordHash = async password => {
+  return new Promise(async (resolve, reject) => {
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, (err, hash) => {
+        if (err) reject(err);
+        resolve(hash);
+      });
+    });
+  });
+};
+
+// verify given password
+const checkPassword = async (password, hash) => {
+  return new Promise(async (resolve, reject) => {
+    bcrypt.compare(password, hash, (err, result) => {
+      if (err) reject(false);
+      resolve(result);
+    });
   });
 };

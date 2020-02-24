@@ -1,3 +1,4 @@
+require("dotenv").config();
 import express from "express";
 import {
   generateShortLink,
@@ -6,12 +7,25 @@ import {
 } from "../modules/ShortLink";
 import { validateJwt } from "../modules/JWToken";
 import { getShortlinkBrowserAnalytics } from "../modules/ShortLinkAnalytics";
+import rateLimiterRedis from "../server";
 
 const apiRouter = express.Router();
 let user = null;
 
-// jwt middleware
 apiRouter.use((req, res, next) => {
+  // redis rate limiter
+  const rateLimiterMiddleware = (req, res, next) => {
+    rateLimiterRedis
+      .consume(req.ip)
+      .then(() => {
+        next();
+      })
+      .catch(_ => {
+        res.status(429).send("Too Many Requests");
+      });
+  };
+
+  // jwt middleware
   if (req.path.includes("shortlink")) {
     validateJwt(req)
       .then(result => {

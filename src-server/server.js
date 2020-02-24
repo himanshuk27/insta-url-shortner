@@ -8,6 +8,7 @@ import apiRouter from "./router/api";
 import authRouter from "./router/auth";
 import redis from "redis";
 import helmet from "helmet";
+import { RateLimiterRedis } from "rate-limiter-flexible";
 
 export const app = express();
 const port = process.env.API_PORT || 3000;
@@ -19,6 +20,12 @@ redisClient.on("error", function(error) {
 export const redisPrint = redisClient.print;
 
 app.use(helmet());
+
+export const rateLimiterRedis = new RateLimiterRedis({
+  storeClient: redisClient,
+  points: 5, // Number of points
+  duration: 5 // Per second(s)
+});
 
 // use cors for local testing
 if (process.env.MODE == "development") {

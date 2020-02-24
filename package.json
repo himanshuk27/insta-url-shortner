@@ -1,6 +1,9 @@
 {
   "name": "insta-url-shortner",
   "version": "0.1.0",
+  "engines": {
+    "node": "13.9"
+  },
   "private": true,
   "main": "lib/server.js",
   "scripts": {

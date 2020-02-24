@@ -13,16 +13,14 @@ export const authenticateAndSetToken = async userCreds => {
         password: userCreds.password
       })
       .then(response => {
-        const token = response.data.token;
+        const authToken = response.data.token;
+        const expireAt = response.data.expireAt;
         // set expiration date
         // return with error message if no token
-        if (token && token != "") {
-          const expireAt = moment()
-            .add(response.data.expireAt.replace("h", ""), "hours")
-            .toString();
+        if (authToken && authToken != "") {
           // set axios authorization token
           resolve({
-            authToken: token,
+            authToken,
             expireAt
           });
         } else {

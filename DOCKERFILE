@@ -1,15 +1,10 @@
 FROM node:13
 
-# set working directory
-WORKDIR /app
-
-# add `/app/node_modules/.bin` to $PATH
-
-# install and cache app dependencies
-COPY . /app
+WORKDIR /instacar
 
 EXPOSE 3000 8080
 
+COPY . /instacar
 ENV PATH /app/node_modules/.bin:$PATH
 ENV API_PORT 3000
 ENV APP_UUID 544f3457-3bab-464c-a6f3-086d0cc67913
@@ -24,5 +19,7 @@ ENV MONGODB_DB instaurl
 ENV JWT_EXP 1h
 
 RUN npm install @vue/cli -g
+RUN npm install http-server -g
 RUN npm install
-CMD ["npm", "run", "dev"]
+RUN npm run build
+CMD ["http-server", "dist"]

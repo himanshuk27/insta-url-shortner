@@ -15,20 +15,25 @@ let collection;
  * @param {*} collectionName
  */
 export const dbConnect = async collectionName => {
-  try {
-    const connectionUrl = `mongodb://${username}:${password}@${url}:${port}/${authDb}`;
-    const client = await MongoClient.connect(connectionUrl, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    db = client.db(dbName);
-    // set collection object
-    collection = db.collection(collectionName);
+  return new Promise((resolve, reject) => {
+    try {
+      const connectionUrl = `mongodb://${username}:${password}@${url}:${port}/${authDb}`;
+      const client = MongoClient.connect(connectionUrl, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      });
 
-    return client;
-  } catch (e) {
-    throw new Error(e.message);
-  }
+      db = client.db(dbName);
+      // set collection object
+      collection = db.collection(collectionName);
+      if (!db || !collection) {
+        reject("unable to connect mongodb database");
+      }
+      resolve(client);
+    } catch (e) {
+      reject(e.message);
+    }
+  });
 };
 
 /**

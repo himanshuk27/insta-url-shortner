@@ -13,7 +13,10 @@ import { RateLimiterRedis } from "rate-limiter-flexible";
 export const app = express();
 const port = process.env.API_PORT || 3000;
 // init redis client
-export const redisClient = redis.createClient();
+export const redisClient = redis.createClient({
+  host: process.env.REDIS_URL,
+  port: process.env.REDIS_PORT
+});
 redisClient.on("error", function(error) {
   console.error(error);
 });
@@ -27,10 +30,8 @@ export const rateLimiterRedis = new RateLimiterRedis({
   duration: 5 // Per second(s)
 });
 
-// use cors for local testing
-if (process.env.MODE == "development") {
-  app.use(cors());
-}
+app.use(cors({ origin: true }));
+
 // use body parser to parse request parameters
 app.use(
   bodyParser.urlencoded({
@@ -38,6 +39,22 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+
+const appRouter = express.Router();
+
+appRouter.use((req, res, next) => {
+  // redis rate limiter
+  const rateLimiterMiddleware = (req, res, next) => {
+    rateLimiterRedis
+      .consume(req.ip)
+      .then(() => {
+        next();
+      })
+      .catch(_ => {
+        res.status(429).send("Too Many Requests");
+      });
+  };
+});
 // import shortlink router
 app.use("/", shortLinkRouter);
 // import api routes

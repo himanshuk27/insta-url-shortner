@@ -13,9 +13,7 @@ export const authenticateUser = async (req, res) => {
     try {
       const email = req.body.email.toLowerCase();
       const password = req.body.password;
-      const dbClient = dbConnect("users").catch(e => {
-        reject(e);
-      });
+      const dbClient = await dbConnect("users");
       const user = await findOne({ email });
 
       // return if user not exists

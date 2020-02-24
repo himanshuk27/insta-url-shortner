@@ -13,13 +13,17 @@ export const redirectFromShortlink = async (req, res) => {
       // initialize mongodb connection
       await dbConnect("shortlinks");
 
-      // check redis cache for original url
-      redisClient.get(shortLink, (error, value) => {
-        if (value) {
-          res.redirect(value);
-          resolve();
-        }
-      });
+      try {
+        // check redis cache for original url
+        redisClient.get(shortLink, (error, value) => {
+          if (value) {
+            res.redirect(value);
+            resolve();
+          }
+        });
+      } catch (e) {
+        console.log("TCL: e", e);
+      }
 
       // query in db if redis cache is not there
       const query = await findOne({ shortLink });

@@ -34,3 +34,5 @@ app.use("/api", apiRouter);
 app.use("/api/auth", authRouter);
 
 app.listen(port, () => console.log(`App listening on port ${port}!`));
+
+module.exports = app;

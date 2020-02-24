@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src-server/modules/MongoDbClient.js</title>
+    <title>Code coverage report for src-server/router/api.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -18,34 +18,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src-server/modules</a> MongoDbClient.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">src-server/router</a> api.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.65% </span>
+                <span class="strong">58.62% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>22/23</span>
+                <span class='fraction'>17/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/14</span>
+                <span class='fraction'>3/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">45.45% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>5/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.65% </span>
+                <span class="strong">58.62% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>22/23</span>
+                <span class='fraction'>17/29</span>
             </div>
         
             
@@ -54,7 +54,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -108,36 +108,18 @@
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
 <a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -146,72 +128,120 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">require("dotenv").config();
-import MongoClient from "mongodb";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import express from "express";
+import {
+  generateShortLink,
+  fetchUserGeneratedLinks,
+  checkShortLinkAvailability
+} from "../modules/ShortLink";
+import { validateJwt } from "../modules/JWToken";
+import { getShortlinkBrowserAnalytics } from "../modules/ShortLinkAnalytics";
 &nbsp;
-const url = process.env.MONGODB_URL || <span class="branch-1 cbranch-no" title="branch not covered" >"http://localhost";</span>
-const port = process.env.MONGODB_PORT || <span class="branch-1 cbranch-no" title="branch not covered" >"27017";</span>
-const dbName = process.env.MONGODB_DB || <span class="branch-1 cbranch-no" title="branch not covered" >"admin";</span>
-const username = process.env.MONGODB_USER || <span class="branch-1 cbranch-no" title="branch not covered" >"monodbUser";</span>
-const password = encodeURIComponent(process.env.MONGODB_PASSWORD || <span class="branch-1 cbranch-no" title="branch not covered" >"")</span>;
-const authDb = process.env.MONGODB_AUTH_DB || <span class="branch-1 cbranch-no" title="branch not covered" >"admin";</span>
-let db;
-let collection;
+const apiRouter = express.Router();
+let user = null;
 &nbsp;
-/**
- * Connect to a mongodb instance, returns mongodb client
- * @param {*} collectionName
- */
-export const dbConnect = async collectionName =&gt; {
-  try {
-    const connectionUrl = `mongodb://${username}:${password}@${url}:${port}/${authDb}`;
-    const client = await MongoClient.connect(connectionUrl, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    });
-    db = client.db(dbName);
-    // set collection object
-    collection = db.collection(collectionName);
-&nbsp;
-    return client;
-  } catch (e) {
-<span class="cstat-no" title="statement not covered" >    throw new Error(e.message);</span>
+// jwt middleware
+apiRouter.use((req, res, next) =&gt; {
+  if (req.path.includes("shortlink")) {
+    validateJwt(req)
+      .then(result =&gt; {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (!result) {
+<span class="cstat-no" title="statement not covered" >          res.status(401).send("unknown error in authorising the request");</span>
+        }
+        // set user object
+        user = result;
+        next();
+      })
+      .catch(<span class="fstat-no" title="function not covered" >er</span>ror =&gt; {
+<span class="cstat-no" title="statement not covered" >        res.status(401).send(error);</span>
+<span class="cstat-no" title="statement not covered" >        res.end();</span>
+      });
+  } else {
+    next();
   }
-};
+});
 &nbsp;
-/**
- * Insert single row into db collection
- * @param {*} item
- */
-export const insertItem = async item =&gt; {
-  return collection.insertOne(item);
-};
-&nbsp;
-export const findOne = async query =&gt; {
-  return collection.findOne(query);
-};
-&nbsp;
-export const find = async query =&gt; {
-  return new Promise((resolve, reject) =&gt; {
-    collection.find(query).toArray(function(err, data) {
-      err ? <span class="branch-0 cbranch-no" title="branch not covered" >reject(err) </span>: resolve(data);
-    });
+apiRouter.post("/shortlink/create", (req, res) =&gt; {
+  generateShortLink(req, res, user).catch(<span class="fstat-no" title="function not covered" >er</span>ror =&gt; {
+<span class="cstat-no" title="statement not covered" >    res.status(error.code || 417).send(error);</span>
+<span class="cstat-no" title="statement not covered" >    res.end();</span>
   });
-};
+});
+&nbsp;
+apiRouter.post("/user/shortlinks", (req, res) =&gt; {
+  fetchUserGeneratedLinks(req, res, user).catch(<span class="fstat-no" title="function not covered" >er</span>ror =&gt; {
+<span class="cstat-no" title="statement not covered" >    res.status(error.code || 417).send(error);</span>
+<span class="cstat-no" title="statement not covered" >    res.end();</span>
+  });
+});
+&nbsp;
+apiRouter.post("/shortlink/check-availability", (req, res) =&gt; {
+  checkShortLinkAvailability(req, res).catch(<span class="fstat-no" title="function not covered" >er</span>ror =&gt; {
+<span class="cstat-no" title="statement not covered" >    res.status(error.code || 417).send(error);</span>
+<span class="cstat-no" title="statement not covered" >    res.end();</span>
+  });
+});
+&nbsp;
+apiRouter.post("/shortlink/analytics", <span class="fstat-no" title="function not covered" >(r</span>eq, res) =&gt; {
+<span class="cstat-no" title="statement not covered" >  getShortlinkBrowserAnalytics(req, res, user).catch(<span class="fstat-no" title="function not covered" >er</span>ror =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    res.status(error.code || 417).send(error);</span>
+<span class="cstat-no" title="statement not covered" >    res.end();</span>
+  });
+});
+&nbsp;
+module.exports = apiRouter;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

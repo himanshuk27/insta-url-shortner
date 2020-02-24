@@ -52,26 +52,31 @@ export const generateShortLink = async (req, res, user) => {
           : null;
 
       const uniqueIdentifier = randomstring.generate(6);
+      const shortLink =
+        customShortLink && customShortLink != ""
+          ? customShortLink
+          : uniqueIdentifier;
 
-      const shortLink = {
+      const shortLinkObject = {
         _id: uuidv5(uniqueIdentifier, process.env.APP_UUID),
         url,
         userId,
-        shortLink:
-          customShortLink && customShortLink != ""
-            ? customShortLink
-            : uniqueIdentifier,
+        shortLink,
         expireAt,
         createdAt: moment().toDate()
       };
 
       // insert into db
-      await insertItem(shortLink);
+      await insertItem(shortLinkObject);
       // close connection
       dbClient.close();
 
-      // save shortlink to redis cache
-      redisClient.set(uniqueIdentifier, url);
+      try {
+        // save shortlink to redis cache
+        redisClient.set(shortLink, url);
+      } catch (e) {
+        console.log("TCL: e", e);
+      }
 
       res.send({
         error: false,

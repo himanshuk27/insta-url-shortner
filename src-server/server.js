@@ -11,7 +11,7 @@ import helmet from "helmet";
 import { RateLimiterRedis } from "rate-limiter-flexible";
 
 export const app = express();
-const port = process.env.API_PORT || 3000;
+const port = process.env.PORT || 3000;
 // init redis client
 export const redisClient = redis.createClient({
   host: process.env.REDIS_URL,

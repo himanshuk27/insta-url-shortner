@@ -1,1 +1,0 @@
-web: npm run build-server && node lib/server.js

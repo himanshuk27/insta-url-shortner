@@ -11,7 +11,7 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "web": "node lib/server.js"
+    "web": "npm run build-server && node lib/server.js"
   },
   "dependencies": {
     "bcrypt": "^4.0.0",

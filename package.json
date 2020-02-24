@@ -5,9 +5,8 @@
     "node": "13.9"
   },
   "private": true,
-  "main": "lib/server.js",
   "scripts": {
-    "build-": "rm -rf lib && babel src-server --out-dir lib",
+    "build": "rm -rf lib && babel src-server --out-dir lib",
     "start": "node lib/server.js",
     "dev-server": "nodemon --exec babel-node src-server/server.js"
   },

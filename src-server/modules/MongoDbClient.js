@@ -1,7 +1,7 @@
 require("dotenv").config();
 import MongoClient from "mongodb";
 
-const url = process.env.MONGODB_URL || "http://localhost";
+const url = process.env.MONGODB_URL || "127.0.0.1";
 const port = process.env.MONGODB_PORT || "27017";
 const dbName = process.env.MONGODB_DB || "admin";
 const username = process.env.MONGODB_USER || "monodbUser";
@@ -15,20 +15,20 @@ let collection;
  * @param {*} collectionName
  */
 export const dbConnect = async collectionName => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const connectionUrl = `mongodb://${username}:${password}@${url}:${port}/${authDb}`;
-      const client = MongoClient.connect(connectionUrl, {
+      const client = await MongoClient.connect(connectionUrl, {
         useNewUrlParser: true,
         useUnifiedTopology: true
       });
 
       db = client.db(dbName);
-      // set collection object
-      collection = db.collection(collectionName);
-      if (!db || !collection) {
+      if (!db) {
         reject("unable to connect mongodb database");
       }
+      // set collection object
+      collection = db.collection(collectionName);
       resolve(client);
     } catch (e) {
       reject(e.message);

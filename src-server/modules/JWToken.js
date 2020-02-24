@@ -1,19 +1,23 @@
 require("dotenv").config();
 import fs from "fs";
 import jwt from "jsonwebtoken";
+import moment from "moment";
 
 // Generate unique jwt auth token from user object
 export const createJwtFromUser = user => {
   try {
     const privateKey = fs.readFileSync("./private.key", "utf8");
     const exp = process.env.JWT_EXP;
+    const expireAt = moment()
+      .add(exp.replace("h", ""), "hours")
+      .toDate();
 
     const signOptions = {
       expiresIn: exp,
       algorithm: "RS256"
     };
 
-    return { token: jwt.sign(user, privateKey, signOptions), expireAt: exp };
+    return { token: jwt.sign(user, privateKey, signOptions), expireAt };
   } catch (e) {
     return {
       error: true,

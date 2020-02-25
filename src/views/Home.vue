@@ -202,7 +202,7 @@
                   <p class="text-subtitle1 q-mr-xs">Link:</p>
                   <a
                     class="text-subtitle1"
-                    :href="`${slEndpoint}${generatedShortLink}`"
+                    :href="`${slEndpoint}/${generatedShortLink}`"
                     target="_blank"
                     >{{ `${slEndpoint}${generatedShortLink}` }}</a
                   >
@@ -273,7 +273,7 @@ export default {
           label: "Short Link",
           align: "left",
           field: row => row.shortLink,
-          format: val => `${this.slEndpoint}${val}`,
+          format: val => `${this.slEndpoint}/${val}`,
           sortable: true
         },
         {

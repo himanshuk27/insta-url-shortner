@@ -2,6 +2,18 @@
 
 [http://instaurl.himanshu.cc](http://instaurl.himanshu.cc)
 
+  ### Login Page
+
+  ![alt text](ss1.png "Login Page")
+
+  ### Main Dashboard
+
+  ![alt text](ss2.png "Login Page")
+
+  ### Link Analytics
+
+  ![alt text](ss3.png "Login Page")
+
 ## App Features
 
 - Instant short link generator
@@ -63,17 +75,3 @@
 
   > src - frontend source files
   > src-server- backend source files
-
-  ## ScreenShots
-
-  ### Login Page
-
-  ![alt text](ss1.png "Login Page")
-
-  ### Main Dashboard
-
-  ![alt text](ss2.png "Login Page")
-
-  ### Link Analytics
-
-  ![alt text](ss3.png "Login Page")

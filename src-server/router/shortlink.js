@@ -5,8 +5,14 @@ import { redirectFromShortlink } from "../modules/MainRedirector";
 const shortLinkRouter = express.Router();
 
 shortLinkRouter.get("/:shortLink", async function(req, res) {
-  await redirectFromShortlink(req, res);
-  await logShortLink(req);
+  redirectFromShortlink(req, res)
+    .then(async () => {
+      await logShortLink(req);
+    })
+    .catch(e => {
+      res.send(e);
+      res.end();
+    });
 });
 
 module.exports = shortLinkRouter;

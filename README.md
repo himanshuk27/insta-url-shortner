@@ -20,6 +20,7 @@
 
 - VueJs based frontend
 - Express nodejs backend
+- Full SSL encryption
 - Mongodb database
 - jest unit test
 - cypress e2e test

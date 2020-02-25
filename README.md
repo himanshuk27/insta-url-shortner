@@ -1,12 +1,14 @@
-# Insta url shortner
+# Insta URL Shortner
+
+[http://instaurl.himanshu.cc](http://instaurl.himanshu.cc)
 
 ## App Features
 
 - Instant short link generator
 - Set custom link
 - Set expiry date and time
-- Link click data logging
-- Link analytics animated Charts (work in progress)
+- Log user ip address, browser name on link use.
+- Browser data analytics animated Charts (see screenshots)
 
 ## App Technology Features
 
@@ -26,8 +28,11 @@
 - Xss protection, frameguard for click jacking, ddos protection etc (helmet)
 - Unique secure uuids, harder to guess
 - Docker container build files (work in progress)
+- Backend deployed on heroku
+- frontend deployed on aws ec2 instance
 
 ## Installation Requirements
+
 - Copy .env.test file to .env
 - Install Redis server
   > sudo apt install redis-server
@@ -49,8 +54,24 @@
 - Run unit test
   > npm run test:unit
 - Run end to end test
+
   > npm run test:e2e
 
   ## App Directory Structure
-> src - frontend source files
-> src-server- backend source files
+
+  > src - frontend source files
+  > src-server- backend source files
+
+  ## ScreenShots
+
+  ### Login Page
+
+  ![alt text](ss1.png "Login Page")
+
+  ### Main Dashboard
+
+  ![alt text](ss2.png "Login Page")
+
+  ### Link Analytics
+
+  ![alt text](ss3.png "Login Page")

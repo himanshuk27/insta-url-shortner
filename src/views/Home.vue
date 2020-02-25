@@ -204,7 +204,7 @@
                     class="text-subtitle1"
                     :href="`${slEndpoint}/${generatedShortLink}`"
                     target="_blank"
-                    >{{ `${slEndpoint}${generatedShortLink}` }}</a
+                    >{{ `${slEndpoint}/${generatedShortLink}` }}</a
                   >
                 </div>
               </ValidationObserver>

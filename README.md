@@ -5,6 +5,8 @@
 ## App Features
 
 - Instant short link generator
+- Fully responsive design
+- Webpack optimized
 - Set custom link
 - Set expiry date and time
 - Log user ip address, browser name on link use.
